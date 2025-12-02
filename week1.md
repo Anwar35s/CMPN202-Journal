@@ -99,7 +99,7 @@ Example configuration:
 - Server: `192.168.56.11`
 
 **Network screenshot:**  
-`![IP Address](ipaddr.png)`
+![IP Address](ipaddr.png)
 
 ---
 
@@ -111,14 +111,14 @@ These commands were run on the workstation VM.
 
 ### **5.1 Kernel Information**
 Command:
-```
+
 uname -a
-```
+
 
 Your output:
-```
+
 Linux anwar35s 6.8.0-87-generic #88-Ubuntu SMP PREEMPT_DYNAMIC Sat Oct 11 09:16:38 UTC 2025 aarch64 aarch64 aarch64 GNU/Linux
-```
+
 
 **Screenshot:**  
 `![uname output](uname.png)`
@@ -127,15 +127,15 @@ Linux anwar35s 6.8.0-87-generic #88-Ubuntu SMP PREEMPT_DYNAMIC Sat Oct 11 09:16:
 
 ### **5.2 Memory Information**
 Command:
-```
+
 free -h
-```
+
 
 Your output:
-```
+
 Mem:  3.8Gi total, 1.4Gi used, 675Mi free, 58Mi shared, 2.0Gi buff/cache, 2.4Gi available
 Swap: 3.8Gi total, 268Ki used
-```
+
 
 **Screenshot:**  
 `![free output](free.png)`
@@ -144,12 +144,12 @@ Swap: 3.8Gi total, 268Ki used
 
 ### **5.3 Disk Usage**
 Command:
-```
+
 df -h
-```
+
 
 Your output:
-```
+
 Filesystem                      Size  Used Avail Use% Mounted on
 /dev/mapper/ubuntu--vg-ubuntu   30G   13G  16G   45%  /
 /dev/vda2                        2.0G 203M 1.6G   12% /boot
@@ -157,15 +157,15 @@ Filesystem                      Size  Used Avail Use% Mounted on
 ```
 
 **Screenshot:**  
-`![df output](df.png)`
+![df output](df.png)
 
 ---
 
 ### **5.4 Network Interface Details**
 Command:
-```
+
 ip addr
-```
+
 
 Your output confirmed the Host-Only Adapter network is active.
 
@@ -176,17 +176,17 @@ Your output confirmed the Host-Only Adapter network is active.
 
 ### **5.5 Distribution Information**
 Command:
-```
+
 lsb_release -a
-```
+
 
 Your output:
-```
+
 Distributor ID: Ubuntu
 Description: Ubuntu 24.04.2 LTS
 Release: 24.04
 Codename: noble
-```
+
 
 **Screenshot:**  
 `![lsb release](lsb.png)`
