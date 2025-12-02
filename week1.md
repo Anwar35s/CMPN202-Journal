@@ -1,16 +1,20 @@
 # Week 1 – System Planning & OS Selection
 
-This week focused on preparing the virtualised environment for the Operating Systems coursework. I created two Ubuntu-based virtual machines, configured VirtualBox networking, selected appropriate distributions, and gathered baseline system information. This setup will support all later phases including security hardening, performance testing, monitoring, and scripting.
+This week focused on preparing the virtualised environment for the Operating Systems coursework. I created two Ubuntu-based virtual machines, configured networking, selected appropriate Linux distributions, and gathered baseline system information. This forms the foundation for all later phases including SSH security, monitoring, scripting, and performance evaluation.
 
 ---
 
 # ## 1. System Architecture Diagram
 
-The coursework requires two separate virtual machines:  
-1. A **headless Ubuntu Server VM**  
-2. A **Ubuntu Desktop workstation VM** used for SSH-based administration
+The system consists of two VirtualBox virtual machines:
 
-Both machines communicate via a private **Host-Only Adapter (192.168.56.0/24)** while still having Internet access via NAT.
+- **Workstation VM (Ubuntu Desktop 22.04 LTS)**  
+  Used to remotely manage the server via SSH, perform monitoring, and capture screenshots.
+
+- **Server VM (Ubuntu Server / Debian Server)**  
+  Headless system used for remote administration, security configuration, performance testing, and automation.
+
+Both machines use a Host-Only Adapter for isolated communication and NAT for Internet access.
 
 ### Architecture Diagram
 
@@ -21,91 +25,87 @@ Both machines communicate via a private **Host-Only Adapter (192.168.56.0/24)** 
                          |--------------------------------------|
                          | • SSH client                         |
                          | • Monitoring scripts                 |
-                         | • Used for remote admin              |
+                         | • Remote administration              |
                          +------------------------+-------------+
                                                   |
                                    Host-Only Network (192.168.56.0/24)
                                                   |
                          +------------------------v-------------+
                          |             Server VM                |
-                         |       Ubuntu Server 22.04 LTS        |
+                         |              (Headless)              |
                          |--------------------------------------|
-                         | • Headless system                    |
-                         | • OpenSSH enabled                    |
-                         | • AppArmor active                    |
-                         | • Firewall later configured          |
+                         | • OpenSSH Server                     |
+                         | • Firewall (later configured)        |
+                         | • AppArmor / Security Tools          |
                          +--------------------------------------+
 ```
 
-*(Insert your diagram)*  
+**Architecture screenshot:**  
 `![Architecture Diagram](architecture.png)`
 
 ---
 
 # ## 2. Distribution Selection Justification
 
-I chose **Ubuntu Server 22.04 LTS** as the server OS.
+I selected **Ubuntu Server 22.04 LTS** (or Debian Server, depending on final choice) for the server. This provides a stable, secure, long-term supported environment that works well inside VirtualBox.
 
-### Reasons:
-- Excellent long-term security support  
-- Built-in **AppArmor** mandatory access control  
-- Reliable, modern kernel  
-- Compatible with VirtualBox  
-- Uses APT, making administration simple  
-- Well documented, widely used in real systems
+### Reasons for choosing Ubuntu/Debian as the server:
+- Strong security features  
+- Long-term support  
+- Compatible with APT package management  
+- Lightweight and efficient  
+- Excellent documentation  
+- Reliable for headless operation  
 
 ### Comparison With Alternatives
 
 | Distribution | Pros | Cons |
 |--------------|------|------|
-| **Ubuntu Server 22.04** | Secure, modern, AppArmor, best documentation | Slightly larger size |
-| Debian | Very stable | Older packages |
-| Rocky Linux | SELinux enforced | More complex for beginners |
-
-**Conclusion: Ubuntu Server 22.04 LTS is ideal for this coursework.**
+| **Ubuntu Server** | Modern kernel, AppArmor, easy setup | Slightly heavier |
+| **Debian Server** | Extremely stable, lightweight | Older software versions |
+| Rocky Linux | SELinux enforced | Harder for beginners |
 
 ---
 
 # ## 3. Workstation Configuration Decision
 
-I selected **Ubuntu Desktop 22.04 LTS** for the workstation VM.
+The workstation is **Ubuntu Desktop 22.04 LTS**, chosen because:
 
-### Benefits:
-- GUI makes screenshot capture and documentation easier  
-- Includes built-in SSH tools  
-- Allows full remote administration of the server  
-- Mirrors real-world DevOps workflow (client → server via SSH)  
-- Keeps the server completely headless as required  
+- It includes a full GUI (helpful for documentation)  
+- Provides built-in SSH tools  
+- Easy to use for remote administration  
+- Mirrors real industry workflows  
+
+This VM is used to SSH into the headless server VM.
 
 ---
 
 # ## 4. Network Configuration Documentation
 
-Both VMs use **two network adapters** in VirtualBox:
+Both VMs use **two VirtualBox network adapters**:
 
-### Adapter 1 — NAT
-- Provides internet access  
-- Used only for updates and installing packages  
+### Adapter 1 — NAT  
+- Provides Internet access for updates  
+- Fully isolated from LAN  
 
-### Adapter 2 — Host-Only (vboxnet0)
-- Provides isolated communication between the workstation and server  
-- Required for SSH and monitoring  
-- Ensures safe security testing  
+### Adapter 2 — Host-Only Adapter  
+- Used for communication between workstation and server  
+- Required for SSH  
+- Safely isolated for security testing  
 
 ### Assigned IP Addresses
-After configuring the Host-Only network:
+Example configuration:
+- Workstation: `192.168.56.10`
+- Server: `192.168.56.11`
 
-- **Workstation:** `192.168.56.10`  
-- **Server:** `192.168.56.11`
-
-*(Insert your screenshots here after uploading)*  
+**Network screenshot:**  
 `![IP Address](ipaddr.png)`
 
 ---
 
 # ## 5. System Specification Evidence (Using Your Real Outputs)
 
-This section captures baseline system information collected using Linux CLI tools.
+These commands were run on the workstation VM.
 
 ---
 
@@ -120,8 +120,8 @@ Your output:
 Linux anwar35s 6.8.0-87-generic #88-Ubuntu SMP PREEMPT_DYNAMIC Sat Oct 11 09:16:38 UTC 2025 aarch64 aarch64 aarch64 GNU/Linux
 ```
 
-*(Insert screenshot)*  
-`![uname](uname.png)`
+**Screenshot:**  
+`![uname output](uname.png)`
 
 ---
 
@@ -137,8 +137,8 @@ Mem:  3.8Gi total, 1.4Gi used, 675Mi free, 58Mi shared, 2.0Gi buff/cache, 2.4Gi 
 Swap: 3.8Gi total, 268Ki used
 ```
 
-*(Insert screenshot)*  
-`![free](free.png)`
+**Screenshot:**  
+`![free output](free.png)`
 
 ---
 
@@ -156,8 +156,8 @@ Filesystem                      Size  Used Avail Use% Mounted on
 /dev/vda1                        1.1G  6.4M 1.1G   1% /boot/efi
 ```
 
-*(Insert screenshot)*  
-`![df](df.png)`
+**Screenshot:**  
+`![df output](df.png)`
 
 ---
 
@@ -167,13 +167,10 @@ Command:
 ip addr
 ```
 
-Your output (summarised):
-```
-inet 192.168.56.xx  (correct host-only IP)
-```
+Your output confirmed the Host-Only Adapter network is active.
 
-*(Insert screenshot)*  
-`![ip addr](ipaddr.png)`
+**Screenshot:**  
+`![ip addr output](ipaddr.png)`
 
 ---
 
@@ -191,18 +188,19 @@ Release: 24.04
 Codename: noble
 ```
 
-*(Insert screenshot)*  
+**Screenshot:**  
 `![lsb release](lsb.png)`
 
 ---
 
 # ## 6. Week 1 Reflection
 
-During Week 1, I set up the complete virtualised environment required for the coursework. I created two Ubuntu virtual machines, configured both NAT and Host-Only networking, and selected Ubuntu Server 22.04 LTS as the most appropriate server distribution. I then collected baseline system specifications using standard Linux commands such as `uname`, `free`, `df -h`, `ip addr`, and `lsb_release`.
+During Week 1, I created and configured a dual-VM environment for my Operating Systems coursework. The workstation VM (Ubuntu Desktop) is fully set up for remote administration, and the server VM environment has been planned for headless SSH-based access. I configured VirtualBox networking with both NAT and Host-Only adapters, allowing isolated communication between the two systems.
 
-This initial setup ensures a secure and realistic remote administration environment. It will support the later phases involving SSH security, firewalls, performance testing, automation scripts, and security auditing. The system is now ready to progress to Week 2.
+I executed key Linux commands to gather baseline system information, including kernel version, memory usage, disk usage, network details, and distribution information. These outputs will be essential for future tasks such as system hardening, monitoring, performance testing, and automation scripting.
+
+With the environment established, I am now ready to progress to Week 2, which focuses on SSH configuration, security planning, and initial system hardening.
 
 ---
 
 **End of Week 1**
-
