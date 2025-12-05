@@ -91,3 +91,11 @@ Firewall configuration
 System monitoring and scripting
 
 With remote access established, the server is now prepared for the more advanced security and automation tasks in the upcoming weeks.
+
+
+![SSH Status](/CMPN202-Journal/ssh_status.png)
+![Server IP](/CMPN202-Journal/server_ip.png)
+![SSH Port](/CMPN202-Journal/ssh_port.png)
+![SSHD Config](/CMPN202-Journal/sshd_config.png)
+![SSH Login](/CMPN202-Journal/ssh_login.png)
+
