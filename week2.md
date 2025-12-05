@@ -1,101 +1,76 @@
 Week 2 – SSH Installation, Configuration & Remote Access
 
-This week focused on enabling secure remote administration on the server VM by installing and configuring OpenSSH. I verified the service status, ensured that SSH was listening on the correct network interface, reviewed the SSH daemon configuration, and successfully connected from my macOS workstation. These steps establish a secure foundation for future tasks including system hardening and automation.
+This week focused on installing, enabling, and testing secure remote access using OpenSSH on the server VM. I confirmed service status, verified SSH port listening, inspected configuration files, and successfully logged in remotely from my macOS workstation. This sets up the foundation for secure administration in future weeks.
 
-1. Installing and Enabling OpenSSH Server
+1. Installing & Enabling OpenSSH Server
 
-To allow remote access, I began by installing the OpenSSH server package:
+I first installed OpenSSH Server on the VM:
 
 sudo apt update
 sudo apt install openssh-server -y
 
 
-After installation, I checked whether the SSH service was active and running.
+Then confirmed the service was running:
 
-SSH Service Status
+sudo systemctl status ssh
 
-The SSH service showed as active (running), confirming that it started successfully.
+Screenshot – SSH Service Status
 
-2. Identifying the Server’s Network Address
+2. Checking the Server’s IP Address
 
-To connect to the server over the network, I retrieved its IP address using:
+To connect remotely, I checked the server's IP address:
 
 ip addr
 
 
-The interface enp0s2 was assigned the IP 192.168.64.13, which I used to initiate the SSH connection.
+The active address was on the 192.168.64.x subnet.
 
-Server IP Address
+Screenshot – Server IP Address
 
-3. Verifying SSH Port and Listening State
+3. Verifying SSH Port Listening State
 
-Next, I checked that SSH was listening correctly on port 22 — the default port for secure shell access:
+I confirmed that SSH was listening on port 22:
 
 sudo ss -tulnp | grep ssh
 
 
-The output confirmed that sshd was listening on both IPv4 and IPv6:
+SSH was correctly accepting connections over IPv4 and IPv6.
 
-0.0.0.0:22
+Screenshot – SSH Port Listening
 
-[::]:22
+4. Reviewing SSH Daemon Configuration
 
-This means SSH is accessible from any network interface allowed by the VM’s network configuration.
-
-SSH Listening on Port 22
-
-4. Reviewing the SSH Daemon Configuration
-
-The SSH daemon configuration file contains important security-related settings. I viewed the file using:
+I reviewed the SSH configuration file to identify authentication settings, port configuration, and general server policies:
 
 sudo cat /etc/ssh/sshd_config
 
-
-This allowed me to verify:
-
-Default port (22)
-
-Authentication settings
-
-Key exchange & ciphers
-
-Logging configuration
-
-No changes were made this week, but reviewing the defaults helps prepare for security hardening in upcoming weeks.
-
-SSHD Configuration File
+Screenshot – SSHD Configuration File
 
 5. Testing SSH Login from macOS Workstation
 
-Finally, I tested the complete setup by attempting a remote login from my Mac terminal using the command:
+From my macOS terminal, I initiated an SSH login to the server:
 
 ssh anwar35s@192.168.64.13
 
 
-The connection succeeded after confirming the host fingerprint. This demonstrated that the server was reachable and authentication was functioning properly.
+I accepted the host key and authenticated successfully.
 
-Successful SSH Login
+Screenshot – Successful SSH Login
 
 6. Week 2 Reflection
 
-During Week 2, I completed the setup of secure remote access to the server VM. I installed and enabled the OpenSSH server, confirmed its operational status, checked the network configuration, and verified that port 22 was listening correctly. A successful SSH login from my macOS workstation confirmed that the system is now ready for remote administration.
+During Week 2, I successfully established secure remote access to the server VM. I verified:
 
-These steps provide an essential foundation for future activities, including:
+SSH service installation and status
 
-SSH hardening
+Correct network configuration
 
-User access control
+SSH port listening functionality
 
-Firewall configuration
+SSHD configuration defaults
 
-System monitoring and scripting
+Successful remote login from macOS
 
-With remote access established, the server is now prepared for the more advanced security and automation tasks in the upcoming weeks.
+This confirms the server is now ready for advanced tasks like SSH hardening, firewall configuration, automation, and system monitoring in later weeks.
 
-
-![SSH Status](/CMPN202-Journal/ssh_status.png)
-![Server IP](/CMPN202-Journal/server_ip.png)
-![SSH Port](/CMPN202-Journal/ssh_port.png)
-![SSHD Config](/CMPN202-Journal/sshd_config.png)
-![SSH Login](/CMPN202-Journal/ssh_login.png)
-
+End of Week 2
